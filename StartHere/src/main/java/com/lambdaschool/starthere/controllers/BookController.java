@@ -58,7 +58,7 @@ public class BookController
             @ApiResponse(code = 201, message = "Book Updated", response = Book.class),
             @ApiResponse(code = 404, message = "Book Not Updated", response = ErrorDetail.class)
     })
-    @PutMapping(value = "data/books/{id}")
+    @PutMapping(value = "data/books/{bookid}")
     public ResponseEntity<?> updateBook(HttpServletRequest request,
                                         @RequestBody
                                                 Book updateBook,
