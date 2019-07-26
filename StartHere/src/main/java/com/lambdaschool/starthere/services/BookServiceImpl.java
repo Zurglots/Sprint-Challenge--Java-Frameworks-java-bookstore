@@ -1,11 +1,16 @@
 package com.lambdaschool.starthere.services;
 
+import com.lambdaschool.starthere.exceptions.ResourceNotFoundException;
 import com.lambdaschool.starthere.models.Book;
+import com.lambdaschool.starthere.repository.AuthorRepository;
 import com.lambdaschool.starthere.repository.BookRepository;
+import io.swagger.annotations.Authorization;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,6 +19,9 @@ public class BookServiceImpl implements BookService
 {
     @Autowired
     private BookRepository bookrepos;
+
+    @Autowired
+    private AuthorRepository authorrepos;
 
     @Override
     public List<Book> findAll(Pageable pageable)
@@ -24,4 +32,50 @@ public class BookServiceImpl implements BookService
     }
 
 
+    @Override
+    public Book update(Book book, long id)
+    {
+        Book currentBook = bookrepos
+                .findById(id).orElseThrow(() -> new ResourceNotFoundException(Long.toString(id)));
+        if (book.getBooktitle() != null)
+        {
+            currentBook.setBooktitle(book.getBooktitle());
+        }
+        return bookrepos.save(currentBook);
+    }
+
+
+    @Override
+    public Book save(Book book)
+    {
+        Book newBook = new Book();
+
+        newBook.setBooktitle(book.getBooktitle());
+
+        return bookrepos.save(newBook);
+    }
+
+    @Override
+    public Book updateBookToAuthor(long bookid, long authorid)
+    {
+        if (bookrepos.findById(bookid).isPresent() && authorrepos.findById(authorid).isPresent())
+        {
+            return updateBookToAuthor(bookid,authorid);
+        } else {
+            throw new ResourceNotFoundException(Long.toString(bookid));
+        }
+
+    }
+
+    @Override
+    public void delete(long id) throws ResourceNotFoundException
+    {
+        if (bookrepos.findById(id).isPresent())
+        {
+            bookrepos.deleteById(id);
+        } else
+        {
+            throw new ResourceNotFoundException(Long.toString(id));
+        }
+    }
 }

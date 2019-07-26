@@ -15,7 +15,7 @@ public class Book extends Auditable
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long bookid;
 
-    @Column(nullable = false)
+    @Column
     private String title;
 
     private String isbn;

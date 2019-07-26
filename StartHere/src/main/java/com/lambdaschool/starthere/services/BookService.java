@@ -9,4 +9,12 @@ public interface BookService
 {
     List<Book> findAll(Pageable pageable);
 
+    Book update(Book book, long id);
+
+    Book save (Book book);
+
+    Book updateBookToAuthor(long bookid, long authorid);
+
+    void delete(long id);
+
 }
