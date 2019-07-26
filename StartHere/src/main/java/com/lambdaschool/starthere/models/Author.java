@@ -8,16 +8,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "authors")
+@Table(name = "author")
 public class Author extends Auditable
 {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long authorid;
-    private String lastname;
-    private String firstname;
+    private String lname;
+    private String fname;
 
-    @ManyToMany(mappedBy = "author")
+    @ManyToMany
+    @JoinTable(name = "wrote",
+                joinColumns = {@JoinColumn(name = "authorid")},
+                inverseJoinColumns = {@JoinColumn(name = "bookid")})
     @JsonIgnoreProperties("author")
 
     private List<Book> book = new ArrayList<>();
@@ -26,10 +29,10 @@ public class Author extends Auditable
     {
     }
 
-    public Author(String lastname, String firstname, List<Book> book)
+    public Author(String lname, String fname, List<Book> book)
     {
-        this.lastname = lastname;
-        this.firstname = firstname;
+        this.lname = lname;
+        this.fname = fname;
         this.book = book;
     }
 
@@ -45,22 +48,22 @@ public class Author extends Auditable
 
     public String getLastname()
     {
-        return lastname;
+        return lname;
     }
 
-    public void setLastname(String lastname)
+    public void setLastname(String lname)
     {
-        this.lastname = lastname;
+        this.lname = lname;
     }
 
     public String getFirstname()
     {
-        return firstname;
+        return fname;
     }
 
-    public void setFirstname(String firstname)
+    public void setFirstname(String fname)
     {
-        this.firstname = firstname;
+        this.fname = fname;
     }
 
     public List<Book> getBook()

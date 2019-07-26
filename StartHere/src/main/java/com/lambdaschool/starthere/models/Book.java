@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "books")
+@Table(name = "book")
 public class Book extends Auditable
 {
     @Id
@@ -16,10 +16,10 @@ public class Book extends Auditable
     private long bookid;
 
     @Column(nullable = false)
-    private String booktitle;
+    private String title;
 
     private String isbn;
-    private int copydate;
+    private int copy;
 
     @ManyToMany(mappedBy = "book")
     @JsonIgnoreProperties("book")
@@ -29,11 +29,11 @@ public class Book extends Auditable
     {
     }
 
-    public Book(String booktitle, String isbn, int copydate, List<Author> author)
+    public Book(String title, String isbn, int copy, List<Author> author)
     {
-        this.booktitle = booktitle;
+        this.title = title;
         this.isbn = isbn;
-        this.copydate = copydate;
+        this.copy = copy;
         this.author = author;
     }
 
@@ -49,12 +49,12 @@ public class Book extends Auditable
 
     public String getBooktitle()
     {
-        return booktitle;
+        return title;
     }
 
-    public void setBooktitle(String booktitle)
+    public void setBooktitle(String title)
     {
-        this.booktitle = booktitle;
+        this.title = title;
     }
 
     public String getIsbn()
@@ -69,12 +69,12 @@ public class Book extends Auditable
 
     public int getCopydate()
     {
-        return copydate;
+        return copy;
     }
 
-    public void setCopydate(int copydate)
+    public void setCopydate(int copy)
     {
-        this.copydate = copydate;
+        this.copy = copy;
     }
 
     public List<Author> getAuthor()
