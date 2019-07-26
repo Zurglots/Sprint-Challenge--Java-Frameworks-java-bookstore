@@ -82,8 +82,8 @@ public class BookServiceImpl implements BookService
     @Override
     public Book updateBookToAuthor(long bookid, long authorid)
     {
-        Book currentBook = bookrepos.findBookId(bookid);
-        Author currentAuthor = authorrepos.findAuthorId(authorid);
+        Book currentBook = bookrepos.findByBookid(bookid);
+        Author currentAuthor = authorrepos.findByAuthorid(authorid);
 
         currentBook.getAuthor().add(currentAuthor);
 

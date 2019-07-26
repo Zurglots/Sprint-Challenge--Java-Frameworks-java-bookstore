@@ -5,6 +5,5 @@ import org.springframework.data.repository.PagingAndSortingRepository;
 
 public interface AuthorRepository extends PagingAndSortingRepository<Author, Long>
 {
-
-    Author findAuthorId(long id);
+    Author findByAuthorid(long authorid);
 }

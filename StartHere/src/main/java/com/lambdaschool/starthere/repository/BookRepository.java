@@ -9,12 +9,12 @@ import org.springframework.transaction.annotation.Transactional;
 public interface BookRepository extends PagingAndSortingRepository<Book, Long>
 {
 
-    @Transactional
-    @Modifying
-    @Query(value = "INSERT INTO wrote (bookid, authorid) VALUES (:bookid, :authorid)",
-            nativeQuery = true)
-    void insertBookAuthor(long bookid, long authorid);
+//    @Transactional
+//    @Modifying
+//    @Query(value = "INSERT INTO wrote (bookid, authorid) VALUES (:bookid, :authorid)",
+//            nativeQuery = true)
+//    void insertBookAuthor(long bookid, long authorid);
 
-    Book findBookId(long id);
+    Book findByBookid(long bookid);
 
 }
