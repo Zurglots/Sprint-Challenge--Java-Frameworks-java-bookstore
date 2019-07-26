@@ -12,6 +12,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -26,7 +27,7 @@ public class BookController
 
     @Autowired
     private BookService bookService;
-
+    @PreAuthorize("hasRole('ROLE_DATA') or hasRole('ROLE_ADMIN')")
     @ApiOperation(value = "Returns all Books with Paging Ability", responseContainer = "List")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "page", dataType = "integr", paramType = "query",
@@ -84,14 +85,15 @@ public class BookController
                                                 @PathVariable long authorid)
     {
         logger.trace(request.getRequestURI() + " accessed");
-        bookService.updateBookToAuthor(bookid, authorid);
-        return new ResponseEntity<>(HttpStatus.CREATED);
+        Book newBook = bookService.updateBookToAuthor(bookid, authorid);
+        return new ResponseEntity<>(null, HttpStatus.CREATED);
     }
 
     @ApiResponses(value = {
             @ApiResponse(code = 201, message = "Book Updated", response = Book.class),
             @ApiResponse(code = 404, message = "Book Not Updated", response = ErrorDetail.class)
     })
+
     @DeleteMapping(value = "/data/books/{id}")
     public ResponseEntity<?> deleteBookById(HttpServletRequest request,
                                             @ApiParam(value = "book id", example = "1")

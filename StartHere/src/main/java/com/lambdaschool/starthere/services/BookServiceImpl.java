@@ -1,6 +1,7 @@
 package com.lambdaschool.starthere.services;
 
 import com.lambdaschool.starthere.exceptions.ResourceNotFoundException;
+import com.lambdaschool.starthere.models.Author;
 import com.lambdaschool.starthere.models.Book;
 import com.lambdaschool.starthere.repository.AuthorRepository;
 import com.lambdaschool.starthere.repository.BookRepository;
@@ -31,7 +32,7 @@ public class BookServiceImpl implements BookService
         return list;
     }
 
-
+    @Transactional
     @Override
     public Book update(Book book, long id)
     {
@@ -39,22 +40,45 @@ public class BookServiceImpl implements BookService
                 .findById(id).orElseThrow(() -> new ResourceNotFoundException(Long.toString(id)));
         if (book.getBooktitle() != null)
         {
-            currentBook.setBooktitle(book.getBooktitle());
+            if (book.getBooktitle() != null)
+            {
+                currentBook.setBooktitle(book.getBooktitle());
+            }
+
+            if (book.getIsbn() != null)
+            {
+                currentBook.setIsbn(book.getIsbn());
+            }
+
+            if (book.getCopydate() != 0)
+            {
+                currentBook.setCopydate(book.getCopydate());
+            }
         }
         return bookrepos.save(currentBook);
     }
 
-
+    @Transactional
     @Override
     public Book save(Book book)
     {
         Book newBook = new Book();
 
         newBook.setBooktitle(book.getBooktitle());
+        newBook.setCopydate(book.getCopydate());
+        newBook.setIsbn(book.getIsbn());
+
+        ArrayList<Author> newAuthor = new ArrayList<>();
+        for (Author a : book.getAuthor())
+        {
+            newAuthor.add(new Author(a.getLastname(), a.getFirstname()));
+        }
+        newBook.setAuthor(newAuthor);
 
         return bookrepos.save(newBook);
     }
 
+    @Transactional
     @Override
     public Book updateBookToAuthor(long bookid, long authorid)
     {
@@ -64,9 +88,9 @@ public class BookServiceImpl implements BookService
         } else {
             throw new ResourceNotFoundException(Long.toString(bookid));
         }
-
     }
 
+    @Transactional
     @Override
     public void delete(long id) throws ResourceNotFoundException
     {
