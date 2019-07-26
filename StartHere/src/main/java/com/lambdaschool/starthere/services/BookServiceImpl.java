@@ -82,12 +82,12 @@ public class BookServiceImpl implements BookService
     @Override
     public Book updateBookToAuthor(long bookid, long authorid)
     {
-        if (bookrepos.findById(bookid).isPresent() && authorrepos.findById(authorid).isPresent())
-        {
-            return updateBookToAuthor(bookid,authorid);
-        } else {
-            throw new ResourceNotFoundException(Long.toString(bookid));
-        }
+        Book currentBook = bookrepos.findBookId(bookid);
+        Author currentAuthor = authorrepos.findAuthorId(authorid);
+
+        currentBook.getAuthor().add(currentAuthor);
+
+        return currentBook;
     }
 
     @Transactional

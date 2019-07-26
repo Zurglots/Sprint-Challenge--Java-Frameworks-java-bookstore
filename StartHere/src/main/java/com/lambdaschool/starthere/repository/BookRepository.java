@@ -15,4 +15,6 @@ public interface BookRepository extends PagingAndSortingRepository<Book, Long>
             nativeQuery = true)
     void insertBookAuthor(long bookid, long authorid);
 
+    Book findBookId(long id);
+
 }

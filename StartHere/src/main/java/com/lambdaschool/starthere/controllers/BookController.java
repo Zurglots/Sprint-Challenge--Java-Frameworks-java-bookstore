@@ -3,6 +3,7 @@ package com.lambdaschool.starthere.controllers;
 
 import com.lambdaschool.starthere.models.Book;
 import com.lambdaschool.starthere.models.ErrorDetail;
+import com.lambdaschool.starthere.services.AuthorService;
 import com.lambdaschool.starthere.services.BookService;
 import io.swagger.annotations.*;
 import org.slf4j.Logger;
@@ -27,6 +28,10 @@ public class BookController
 
     @Autowired
     private BookService bookService;
+
+    @Autowired
+    private AuthorService authorService;
+
     @PreAuthorize("hasRole('ROLE_DATA') or hasRole('ROLE_ADMIN')")
     @ApiOperation(value = "Returns all Books with Paging Ability", responseContainer = "List")
     @ApiImplicitParams({
@@ -78,13 +83,13 @@ public class BookController
     })
 
     @PostMapping(value = "/data/books/{bookid}/authors/{authorid}")
-    public ResponseEntity<?> updateBookToAuthor(HttpServletRequest request,
+    public ResponseEntity<?> updateBookToAuthor(
                                                 @ApiParam(value = "book id", example = "1")
                                                 @PathVariable long bookid,
                                                 @ApiParam(value = "author id", example = "1")
                                                 @PathVariable long authorid)
     {
-        logger.trace(request.getRequestURI() + " accessed");
+
         Book newBook = bookService.updateBookToAuthor(bookid, authorid);
         return new ResponseEntity<>(null, HttpStatus.CREATED);
     }
