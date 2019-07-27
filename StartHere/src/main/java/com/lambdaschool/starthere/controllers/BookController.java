@@ -32,7 +32,7 @@ public class BookController
     @Autowired
     private AuthorService authorService;
 
-    @PreAuthorize("hasRole('ROLE_DATA') or hasRole('ROLE_ADMIN')")
+
     @ApiOperation(value = "Returns all Books with Paging Ability", responseContainer = "List")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "page", dataType = "integr", paramType = "query",
@@ -58,7 +58,7 @@ public class BookController
         return new ResponseEntity<>(myBooks, HttpStatus.OK);
     }
 
-
+    @PreAuthorize("hasRole('ROLE_DATA') or hasRole('ROLE_ADMIN')")
     @ApiResponses(value = {
             @ApiResponse(code = 201, message = "Book Updated", response = Book.class),
             @ApiResponse(code = 404, message = "Book Not Updated", response = ErrorDetail.class)
@@ -77,6 +77,7 @@ public class BookController
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    @PreAuthorize("hasRole('ROLE_DATA') or hasRole('ROLE_ADMIN')")
     @ApiResponses(value = {
             @ApiResponse(code = 201, message = "Book Updated", response = Book.class),
             @ApiResponse(code = 404, message = "Book Not Updated", response = ErrorDetail.class)
@@ -99,12 +100,12 @@ public class BookController
             @ApiResponse(code = 404, message = "Book Not Updated", response = ErrorDetail.class)
     })
 
+    @PreAuthorize("hasRole('ROLE_DATA') or hasRole('ROLE_ADMIN')")
     @DeleteMapping(value = "/data/books/{id}")
-    public ResponseEntity<?> deleteBookById(HttpServletRequest request,
+    public ResponseEntity<?> deleteBookById(
                                             @ApiParam(value = "book id", example = "1")
                                             @PathVariable long bookid)
     {
-        logger.trace(request.getRequestURI() + " accessed");
         bookService.delete(bookid);
         return new ResponseEntity<>(HttpStatus.OK);
     }
