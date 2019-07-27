@@ -101,7 +101,7 @@ public class BookController
     })
 
     @PreAuthorize("hasRole('ROLE_DATA') or hasRole('ROLE_ADMIN')")
-    @DeleteMapping(value = "/data/books/{id}")
+    @DeleteMapping(value = "/data/books/{bookid}")
     public ResponseEntity<?> deleteBookById(
                                             @ApiParam(value = "book id", example = "1")
                                             @PathVariable long bookid)
