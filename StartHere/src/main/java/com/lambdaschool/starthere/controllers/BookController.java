@@ -100,7 +100,7 @@ public class BookController
             @ApiResponse(code = 404, message = "Book Not Updated", response = ErrorDetail.class)
     })
 
-    @PreAuthorize("hasRole('ROLE_DATA') or hasRole('ROLE_ADMIN')")
+//    @PreAuthorize("hasRole('ROLE_DATA') or hasRole('ROLE_ADMIN')")
     @DeleteMapping(value = "/data/books/{bookid}")
     public ResponseEntity<?> deleteBookById(
                                             @ApiParam(value = "book id", example = "1")

@@ -92,7 +92,7 @@ public class BookServiceImpl implements BookService
 
     @Transactional
     @Override
-    public void delete(long id)
+    public void delete(long id) throws ResourceNotFoundException
     {
         if (bookrepos.findById(id).isPresent())
         {

@@ -19,8 +19,8 @@ public class Author extends Auditable
 
     @ManyToMany
     @JoinTable(name = "wrote",
-                joinColumns = {@JoinColumn(name = "authorid")},
-                inverseJoinColumns = {@JoinColumn(name = "bookid")})
+            joinColumns = {@JoinColumn(name = "authorid")},
+            inverseJoinColumns = {@JoinColumn(name = "bookid")})
     @JsonIgnoreProperties("author")
 
     private List<Book> book = new ArrayList<>();

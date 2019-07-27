@@ -21,7 +21,8 @@ public class Book extends Auditable
     private String isbn;
     private int copy;
 
-    @ManyToMany(mappedBy = "book")
+    @ManyToMany(mappedBy = "book",
+                cascade = CascadeType.ALL)
     @JsonIgnoreProperties("book")
     private List<Author> author = new ArrayList<>();
 
